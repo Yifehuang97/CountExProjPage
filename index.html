@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CountEx: Fine-Grained Counting via Exemplars and Exclusion</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- MathJax for formula rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="title-container" style="text-align: center; margin-top: 36px;">
+        <div class="title" style="font-size: 2.7rem; font-weight: bold; letter-spacing: 1px;">CountEx</div>
+        <div class="subtitle" style="margin-top: 20px; font-size: 1.3rem; color: #555;">
+            CountEx: Fine-Grained Counting via Exemplars and Exclusion
+        </div>
+    </div>
+
+    <div class="content-container" style="max-width: 900px; margin: 38px auto; padding: 0 16px;">
+        <div class="author-container" style="font-size: 16px; margin-bottom: 18px; text-align:center;">
+            [
+            <a href="https://github.com/Yifehuang97/CountEx" class="author" style="font-family: 'Consolas', monospace;">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" alt="GitHub" style="width: 16px; vertical-align: middle; margin-right: 4px; filter: grayscale(1);">Code
+            </a>
+            ] [
+            <a href="https://huggingface.co/spaces/yifehuang97/CountEx" class="author" style="font-family: 'Consolas', monospace;">
+                <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4bb.svg" alt="Demo" style="width: 16px; vertical-align: middle; margin-right: 4px;">Demo
+            </a>
+            ] [
+            <a href="https://huggingface.co/BBVisual/CountEX-KC" class="author" style="font-family: 'Consolas', monospace;">
+                <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4e6.svg" alt="Model" style="width: 16px; vertical-align: middle; margin-right: 4px;">Model
+            </a>
+            ] [
+            <a href="https://huggingface.co/datasets/BBVisual/CoCount-train" class="author" style="font-family: 'Consolas', monospace;">
+                <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c1.svg" alt="Dataset" style="width: 16px; vertical-align: middle; margin-right: 4px;">Dataset
+            </a>
+            ]
+        </div>
+
+        <div class="abstract-container" style="margin-bottom: 30px; background: #fafbfc; border-radius: 12px; padding: 26px 22px;">
+            <h2 class="abstract-title" style="font-size: 1.25rem; border-left: 4px solid #2d8cf0; padding-left: 9px;">Abstract</h2>
+            <div class="image-container" style="display: flex; justify-content: center; margin-top: 8px;">
+                <img src="static/images/teaser.jpg" alt="CountEx teaser image" style="width: 450px; height: 200px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
+            </div>
+            <div class="abstract-text" style="font-size: 16px; line-height: 1.7; margin-top: 18px;">
+                This paper presents <b>CountEx</b>, a discriminative visual counting framework designed to address a key limitation of existing prompt-based methods: the inability to explicitly exclude visually similar distractors. While current approaches allow users to specify what to count via inclusion prompts, they often struggle in cluttered scenes with confusable object categories, leading to ambiguity and overcounting. CountEx enables users to express both <b>inclusion</b> and <b>exclusion</b> intent, specifying what to count and what to ignore, through multimodal prompts including natural language descriptions and optional visual exemplars.<br><br>
+                At the core of CountEx is a novel <b>Discriminative Query Refinement</b> module, which jointly reasons over inclusion and exclusion cues by first identifying shared visual features, then isolating exclusion-specific patterns, and finally applying selective suppression to refine the counting query.<br><br>
+                To support systematic evaluation of fine-grained counting methods, we introduce <b>CoCount</b>, a benchmark comprising 1,780 videos and 10,086 annotated frames across 97 category pairs. Experiments show that CountEx achieves substantial improvements over state-of-the-art methods for counting objects from both known and novel categories.
+            </div>
+        </div>
+
+        <div class="abstract-container" style="margin-bottom: 30px; background: #fafbfc; border-radius: 12px; padding: 26px 22px;">
+            <h2 class="abstract-title" style="font-size: 1.25rem; border-left: 4px solid #2d8cf0; padding-left: 9px;">Approach</h2>
+            <div class="image-container" style="display: flex; justify-content: center; margin-top: 12px;">
+                <img src="static/images/pipeline.jpg" alt="Approach diagram" style="max-width: 100%; height: auto; border-radius: 7px; border: 1px solid #ddd;">
+            </div>
+            <div class="abstract-text" style="font-size: 16px; line-height: 1.7; margin-top: 18px;">
+                The CountEx approach first constructs query embeddings for inclusion (\(Q_\text{inc}\)) and exclusion (\(Q_\text{exc}\)) using prompts:<br>
+                <div style="text-align: center; margin: 6px 0;">
+                    \( Q_\text{inc}, Q_\text{exc} = \text{PromptEncoder}(\text{Prompt}_\text{inc}, \text{Prompt}_\text{exc}) \)
+                </div>
+                Then, a discriminative refinement extracts shared and exclusive features to suppress distractors:
+                <div style="text-align: center; margin: 6px 0;">
+                    \( Q_\text{refined} = Q_\text{inc} - \alpha \cdot f(Q_\text{exc}, Q_\text{inc}) \)
+                </div>
+                where \( f(\cdot) \) isolates exclusion-specific components and \( \alpha \) controls suppression strength.<br>
+                The refined query \( Q_\text{refined} \) guides the visual counting module to generate fine-grained density maps and final counts.
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>
