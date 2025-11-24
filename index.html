@@ -44,9 +44,7 @@
                 <img src="static/images/teaser.jpg" alt="CountEx teaser image" style="width: 450px; height: 200px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
             </div>
             <div class="abstract-text" style="font-size: 16px; line-height: 1.7; margin-top: 18px;">
-                This paper presents <b>CountEx</b>, a discriminative visual counting framework designed to address a key limitation of existing prompt-based methods: the inability to explicitly exclude visually similar distractors. While current approaches allow users to specify what to count via inclusion prompts, they often struggle in cluttered scenes with confusable object categories, leading to ambiguity and overcounting. CountEx enables users to express both <b>inclusion</b> and <b>exclusion</b> intent, specifying what to count and what to ignore, through multimodal prompts including natural language descriptions and optional visual exemplars.<br><br>
-                At the core of CountEx is a novel <b>Discriminative Query Refinement</b> module, which jointly reasons over inclusion and exclusion cues by first identifying shared visual features, then isolating exclusion-specific patterns, and finally applying selective suppression to refine the counting query.<br><br>
-                To support systematic evaluation of fine-grained counting methods, we introduce <b>CoCount</b>, a benchmark comprising 1,780 videos and 10,086 annotated frames across 97 category pairs. Experiments show that CountEx achieves substantial improvements over state-of-the-art methods for counting objects from both known and novel categories.
+                This paper presents CountEx, a discriminative visual counting framework designed to address a key limitation of existing prompt-based methods: the inability to explicitly exclude visually similar distractors. While current approaches allow users to specify what to count via inclusion prompts, they often struggle in cluttered scenes with confusable object categories, leading to ambiguity and overcounting. CountEx enables users to express both inclusion and exclusion intent, specifying what to count and what to ignore, through multimodal prompts including natural language descriptions and optional visual exemplars. At the core of CountEx is a novel Discriminative Query Refinement module, which jointly reasons over inclusion and exclusion cues by first identifying shared visual features, then isolating exclusion-specific patterns, and finally applying selective suppression to refine the counting query. To support systematic evaluation of fine-grained counting methods, we introduce CoCount, a benchmark comprising 1,780 videos and 10,086 annotated frames across 97 category pairs. Experiments show that CountEx achieves substantial improvements over state-of-the-art methods for counting objects from both known and novel categories.
             </div>
         </div>
 
@@ -56,19 +54,9 @@
                 <img src="static/images/pipeline.jpg" alt="Approach diagram" style="max-width: 100%; height: auto; border-radius: 7px; border: 1px solid #ddd;">
             </div>
             <div class="abstract-text" style="font-size: 16px; line-height: 1.7; margin-top: 18px;">
-                The CountEx approach first constructs query embeddings for inclusion (\(Q_\text{inc}\)) and exclusion (\(Q_\text{exc}\)) using prompts:<br>
-                <div style="text-align: center; margin: 6px 0;">
-                    \( Q_\text{inc}, Q_\text{exc} = \text{PromptEncoder}(\text{Prompt}_\text{inc}, \text{Prompt}_\text{exc}) \)
-                </div>
-                Then, a discriminative refinement extracts shared and exclusive features to suppress distractors:
-                <div style="text-align: center; margin: 6px 0;">
-                    \( Q_\text{refined} = Q_\text{inc} - \alpha \cdot f(Q_\text{exc}, Q_\text{inc}) \)
-                </div>
-                where \( f(\cdot) \) isolates exclusion-specific components and \( \alpha \) controls suppression strength.<br>
-                The refined query \( Q_\text{refined} \) guides the visual counting module to generate fine-grained density maps and final counts.
+                Overview of CountEx. Given an image and multimodal prompts (positive and negative text with optional visual exemplars), we encode them into query sets \(\mathbf{Q}^{\text{pos}}\) and \(\mathbf{Q}^{\text{neg}}\). Our Discriminative Query Refinement (DQR) module consists of three stages: <b>(1)</b> Shared Feature Identification learns prototypes \(\mathbf{C}\) capturing common features between both query sets; <b>(2)</b> Exclusive Feature Extraction isolates negative-exclusive patterns \(\mathbf{R}^{\text{neg}}\) by projecting \(\mathbf{Q}^{\text{neg}}\) onto \(\mathbf{C}\) and filtering residuals; <b>(3)</b> Selective Query Refinement produces refined queries \(\tilde{\mathbf{Q}}^{\text{pos}}\) by selectively suppressing negative patterns via attention. The refined queries are fed to detection heads for final predictions. An auxiliary density prediction branch provides additional supervision during training.
             </div>
         </div>
-
 
     </div>
 </body>
